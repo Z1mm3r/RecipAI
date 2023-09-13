@@ -38,7 +38,7 @@ const PromptTextBox = (props) => {
             return () => {
                 if (loadInterval) {
                     clearInterval(loadInterval);
-                    setLoadInterval(null)
+                    setLoadInterval(null);
                 }
             }
         }
