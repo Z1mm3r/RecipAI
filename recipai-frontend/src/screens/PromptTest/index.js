@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 
 import PromptTextBox from '../../components/PromptTextBox'
+import SendPromptButton from '../../components/SendPromptButton'
 
 import mockRequest from '../../mock/mockServer.js'
 import { clamp, lerp, pct } from '../../util/utils'
@@ -143,9 +144,7 @@ const PromptTest = () => {
                             <TextField value={text} onChange={handleInputChange} />
                         </Grid2>
                         <Grid2 xs={12}>
-                            <Button onClick={handleButtonPress}>
-                                Click me bro
-                            </Button>
+                            <SendPromptButton handleButtonPress={handleButtonPress} />
                         </Grid2>
 
                     </Grid2>
