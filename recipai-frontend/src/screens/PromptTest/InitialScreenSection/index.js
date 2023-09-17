@@ -25,6 +25,7 @@ const InitialScreenSection = (props) => {
     const [slideInterval, setSlideInterval] = useState(null)
     const [isIntervalDone, setIsIntervalDone] = useState(false)
 
+    //TODO Check if we can swap this out for the new styles technique in MUI
     useEffect(() => {
         setClasses({
             ...classes,
@@ -34,12 +35,13 @@ const InitialScreenSection = (props) => {
             }
         })
 
+        //TODO if we change the styles technique this logic must go somewhere else.
         if (padding == 0 && !isIntervalDone) {
             setIsIntervalDone(true)
         }
-        //console.log(padding)
     }, [padding])
 
+    //Used to clean up intervals when finished.
     useEffect(() => {
         if (isIntervalDone) {
             clearInterval(slideInterval);
@@ -52,22 +54,18 @@ const InitialScreenSection = (props) => {
 
         sendPromptCallback(text);
 
+        //Create the "slide" effect for our button & input.
         if (initialPosition) {
             setInitialPosition(false);
             let startTime = (new Date()).getTime();
             setSlideInterval(setInterval(() => {
                 let currentTime = (new Date()).getTime();
-                //console.log("TIME VALUE", (currentTime - startTime) / 1000)
-                if (((currentTime - startTime) / 1000) < 0) {
-                    console.log("UH WHY IS THIS NEGATIVE", currentTime, startTime);
-                }
-                // console.log(clamp(0, 1, (currentTime - startTime) / 1000))
-                // console.log("LERP", lerp(initialPadding, 0, clamp(0, 1, 1 - (currentTime - startTime) / 1000)))
                 let lerpVal = lerp(initialPadding, 0, clamp(0, 1, 1 - (currentTime - startTime) / 1000))
                 setPadding(lerpVal);
             }), 1000 / 10)
         }
 
+        //Cleanup
         return () => {
             if (slideInterval) {
                 clearInterval(slideInterval);
