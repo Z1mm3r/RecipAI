@@ -8,7 +8,6 @@ import SendPromptButton from '../../../components/SendPromptButton'
 const InitialScreenSection = (props) => {
 
     const { sendPromptCallback } = { ...props }
-    console.log(sendPromptCallback);
 
     const initialPadding = 25;
 
