@@ -13,14 +13,10 @@ import { clamp, lerp, pct } from '../../util/utils'
 
 const PromptTest = () => {
 
-
     const [responseText, setResponseText] = useState("");
 
-    useEffect(() => {
-        console.log(responseText);
-    }, [responseText]);
-
     const handlePromptSend = useCallback((text) => {
+        console.log("Sending message with: ", text);
         fetch("/api/recipe", {
             method: 'POST',
             headers: {
@@ -36,7 +32,7 @@ const PromptTest = () => {
                 console.log(data)
                 setResponseText(data)
             })
-    }, [text])
+    }, [])
 
     const handleMockPrompt = useCallback((text) => {
         mockRequest()
@@ -44,7 +40,7 @@ const PromptTest = () => {
                 console.log(res)
                 setResponseText(res)
             });
-    }, [text])
+    }, [])
 
     const sendPromptCallback = useCallback((text) => {
         if (process.env.NODE_ENV == 'development') {

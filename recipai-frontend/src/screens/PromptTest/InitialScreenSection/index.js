@@ -7,7 +7,8 @@ import SendPromptButton from '../../../components/SendPromptButton'
 
 const InitialScreenSection = (props) => {
 
-    const sendPromptCallback = { ...props }
+    const { sendPromptCallback } = { ...props }
+    console.log(sendPromptCallback);
 
     const initialPadding = 25;
 
@@ -50,14 +51,14 @@ const InitialScreenSection = (props) => {
 
     const handleButtonPress = useCallback(() => {
 
-
+        sendPromptCallback(text);
 
         if (initialPosition) {
             setInitialPosition(false);
             let startTime = (new Date()).getTime();
             setSlideInterval(setInterval(() => {
                 let currentTime = (new Date()).getTime();
-                console.log("TIME VALUE", (currentTime - startTime) / 1000)
+                //console.log("TIME VALUE", (currentTime - startTime) / 1000)
                 if (((currentTime - startTime) / 1000) < 0) {
                     console.log("UH WHY IS THIS NEGATIVE", currentTime, startTime);
                 }
