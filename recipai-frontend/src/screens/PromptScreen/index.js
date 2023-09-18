@@ -1,17 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 
 import PromptTextBox from '../../components/PromptTextBox'
-import SendPromptButton from '../../components/SendPromptButton'
 
 import InitialScreenSection from './InitialScreenSection'
 import mockRequest from '../../mock/mockServer.js'
-import { clamp, lerp, pct } from '../../util/utils'
 
 
-const PromptTest = () => {
+const PromptScreen = () => {
 
     const [responseText, setResponseText] = useState("");
 
@@ -86,4 +82,4 @@ const PromptTest = () => {
     )
 }
 
-export default PromptTest;
+export default PromptScreen;
