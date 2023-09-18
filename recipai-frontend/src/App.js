@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { useState, useEffect } from 'react';
-import PromptTest from './screens/PromptTest'
+import PromptScreen from './screens/PromptScreen'
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <PromptTest />
+      <PromptScreen />
     </>
   )
 
