@@ -82,7 +82,7 @@ const InitialScreenSection = (props) => {
     return (
         <>
             <Grid2 xs={12} style={classes.container}>
-                <Grid2 alignItems="center" container direction="column" spacing={1}>
+                <Grid2 alignItems="center" textAlign="center" container direction="column" spacing={1}>
                     <Grid2 xs={12}>
                         <TextField value={text} onChange={handleInputChange} />
                     </Grid2>
