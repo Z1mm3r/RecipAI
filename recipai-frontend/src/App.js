@@ -3,6 +3,7 @@ import './App.css';
 
 import { useState, useEffect } from 'react';
 import PromptScreen from './screens/PromptScreen'
+import MainHeader from './components/MainHeader';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <>
+      <MainHeader />
       <PromptScreen />
     </>
   )

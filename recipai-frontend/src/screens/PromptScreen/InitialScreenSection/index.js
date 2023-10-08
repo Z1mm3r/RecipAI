@@ -78,7 +78,6 @@ const InitialScreenSection = (props) => {
         setText(event.target.value);
     }
 
-
     return (
         <>
             <Grid2 xs={12} style={classes.container}>
