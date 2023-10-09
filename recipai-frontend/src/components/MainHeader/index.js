@@ -7,9 +7,15 @@ const MainHeader = () => {
     return (
         <>
             <Grid2 container>
-
                 <Grid2>
-                    Logo
+                    <Grid2 container>
+                        <Grid2>
+                            Logo
+                        </Grid2>
+                        <Grid2>
+                            Are we using text or png Title?
+                        </Grid2>
+                    </Grid2>
                 </Grid2>
                 <Grid2>
                     Spacer
