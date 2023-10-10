@@ -2,14 +2,16 @@
 const GptPrompt = require('./GptPrompt');
 
 class ChatGptApi {
-    constructor(app, port) {
+    constructor(app, port, host) {
+        this.host = host;
         this.app = app;
         this.port = port;
         this.gptPrompt = new GptPrompt();
     }
 
     setupListeners() {
-        this.app.listen(this.port, () => {
+        this.app.listen(this.port, this.host, () => {
+            console.log(`Server is hosted on ${this.host}`)
             console.log(`Server is listening on ${this.port}`);
         });
     }
