@@ -7,6 +7,7 @@ import MainHeader from './components/MainHeader';
 
 function App() {
 
+
   const [practiceData, setData] = useState(null);
 
   useEffect(() => {

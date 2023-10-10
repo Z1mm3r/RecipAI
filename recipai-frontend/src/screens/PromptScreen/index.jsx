@@ -6,6 +6,8 @@ import PromptTextBox from '../../components/PromptTextBox'
 import InitialScreenSection from './InitialScreenSection'
 import mockRequest from '../../mock/mockServer.js'
 
+import { DEV_SERVER_ADDRESS, DEV_SERVER_PORT, PROD_SERVER_ADDRESS, PROD_SERVER_PORT } from '../../constants'
+import { getURL } from '../../util/utils'
 
 const PromptScreen = () => {
 
@@ -13,7 +15,10 @@ const PromptScreen = () => {
 
     const handlePromptSend = useCallback((text) => {
         console.log("Sending message with: ", text);
-        fetch("/api/recipe", {
+
+        let url = getURL();
+        console.log(url);
+        fetch(`${url}/api/recipe`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,7 +47,7 @@ const PromptScreen = () => {
         if (process.env.NODE_ENV == 'development') {
             console.log("Mock response for dev")
             //TODO only when testing api 
-            //handlePromptSend();
+            //handlePromptSend(text);
             //All other times
             handleMockPrompt(text);
 
