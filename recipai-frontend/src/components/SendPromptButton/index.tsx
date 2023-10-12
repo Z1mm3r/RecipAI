@@ -1,7 +1,8 @@
+import React from 'react'
 import Button from '@mui/material/Button'
 
 
-const SendPromptButton = (props) => {
+const SendPromptButton = (props: { handleButtonPress: () => void }) => {
 
     let { handleButtonPress } = { ...props }
 

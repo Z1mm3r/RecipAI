@@ -1,3 +1,4 @@
+import React from 'react'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { TextField } from '@mui/material'
 import { clamp, lerp, pct } from '../../../util/utils'
@@ -5,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import SendPromptButton from '../../../components/SendPromptButton'
 
-const InitialScreenSection = (props) => {
+const InitialScreenSection = (props: { sendPromptCallback: (string) => any }) => {
 
     const { sendPromptCallback } = { ...props }
 
@@ -20,9 +21,9 @@ const InitialScreenSection = (props) => {
     const [text, setText] = useState("");
 
     const [initialPosition, setInitialPosition] = useState(true)
-    const [padding, setPadding] = useState(pct(initialPadding))
+    const [padding, setPadding] = useState(initialPadding)
 
-    const [slideInterval, setSlideInterval] = useState(null)
+    const [slideInterval, setSlideInterval] = useState(0)
     const [isIntervalDone, setIsIntervalDone] = useState(false)
 
     //TODO Check if we can swap this out for the new styles technique in MUI
@@ -45,7 +46,7 @@ const InitialScreenSection = (props) => {
     useEffect(() => {
         if (isIntervalDone) {
             clearInterval(slideInterval);
-            setSlideInterval(null);
+            setSlideInterval(0);
             setIsIntervalDone(false);
         }
     }, [isIntervalDone])
@@ -58,21 +59,21 @@ const InitialScreenSection = (props) => {
         if (initialPosition) {
             setInitialPosition(false);
             let startTime = (new Date()).getTime();
-            setSlideInterval(setInterval(() => {
+            setSlideInterval(window.setInterval(() => {
                 let currentTime = (new Date()).getTime();
                 let lerpVal = lerp(initialPadding, 0, clamp(0, 1, 1 - (currentTime - startTime) / 1000))
                 setPadding(lerpVal);
-            }), 1000 / 10)
+            }, 1000 / 60))
         }
 
         //Cleanup
         return () => {
             if (slideInterval) {
                 clearInterval(slideInterval);
-                setSlideInterval(null);
+                setSlideInterval(0);
             }
         }
-    },)
+    }, [])
 
     const handleInputChange = (event) => {
         setText(event.target.value);
