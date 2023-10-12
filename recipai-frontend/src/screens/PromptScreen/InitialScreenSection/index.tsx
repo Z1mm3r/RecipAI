@@ -5,9 +5,9 @@ import { useCallback, useEffect, useState } from 'react'
 
 import SendPromptButton from '../../../components/SendPromptButton'
 
-const InitialScreenSection = (props: { sendPromptCallback: (string) => any }) => {
+const InitialScreenSection = (props: { text: string, updateTextCallback: (string) => any, sendPromptCallback: () => any }) => {
 
-    const { sendPromptCallback } = { ...props }
+    const { sendPromptCallback, updateTextCallback, text } = { ...props }
 
     const initialPadding = 25;
 
@@ -16,8 +16,6 @@ const InitialScreenSection = (props: { sendPromptCallback: (string) => any }) =>
             paddingTop: pct(initialPadding)
         }
     });
-
-    const [text, setText] = useState("");
 
     const [initialPosition, setInitialPosition] = useState(true)
     const [padding, setPadding] = useState(initialPadding)
@@ -52,7 +50,10 @@ const InitialScreenSection = (props: { sendPromptCallback: (string) => any }) =>
 
     const handleButtonPress = useCallback(() => {
 
-        sendPromptCallback(text);
+        //TODO this comes from useCallback on parent component.
+        //However due to closure if we are not checking for [text] on this level either, we will not be using the updated 'text' value upstream.
+        //Think about this when not half awake.
+        sendPromptCallback();
 
         //Create the "slide" effect for our button & input.
         if (initialPosition) {
@@ -72,10 +73,10 @@ const InitialScreenSection = (props: { sendPromptCallback: (string) => any }) =>
                 setSlideInterval(0);
             }
         }
-    }, [])
+    }, [text])
 
     const handleInputChange = (event) => {
-        setText(event.target.value);
+        updateTextCallback(event.target.value);
     }
 
     return (
