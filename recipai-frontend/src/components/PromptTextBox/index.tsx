@@ -5,14 +5,15 @@ import { css } from '@emotion/react'
 
 import { useEffect, useRef, useState } from 'react'
 
-const containerClass = css({
-    width: "70%"
-})
-
-const textClass = css({
-    width: "100%",
-    whiteSpace: "pre-wrap"
-})
+const classes = {
+    container: {
+        width: "70%"
+    },
+    text: {
+        width: "100%",
+        whiteSpace: "pre-wrap"
+    }
+}
 
 
 const PromptTextBox = (props: { text: string }) => {
@@ -33,7 +34,7 @@ const PromptTextBox = (props: { text: string }) => {
                 }
                 setOutputText(incomingText.substring(0, counter + 1));
                 counter++;
-            }, 10));
+            }, 15));
 
             return () => {
                 if (loadInterval) {
@@ -58,8 +59,8 @@ const PromptTextBox = (props: { text: string }) => {
         <>
             <Card>
                 <Grid2 container justifyContent="center" alignItems="flex-start">
-                    <Grid2 css={containerClass}>
-                        <Typography css={textClass}>
+                    <Grid2 sx={classes.container}>
+                        <Typography sx={classes.text}>
                             {outputText}
                         </Typography>
                     </Grid2>
