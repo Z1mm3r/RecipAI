@@ -2,6 +2,13 @@ const { Configuration, OpenAIApi } = require("openai");
 
 class GptPrompt {
 
+    chatGpt: any
+
+    configuration: {
+        apiKey: string
+    }
+
+
     constructor() {
         this.configuration = new Configuration({
             apiKey: process.env.CHAT_GPT_KEY,

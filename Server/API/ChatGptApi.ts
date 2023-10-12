@@ -1,12 +1,18 @@
 
-const GptPrompt = require('./GptPrompt');
+const GptResponse = require('./GptPrompt');
 
 class ChatGptApi {
+
+    host: string;
+    app: any;
+    port: string;
+    GptResponse: any;
+
     constructor(app, port, host) {
         this.host = host;
         this.app = app;
         this.port = port;
-        this.gptPrompt = new GptPrompt();
+        this.GptResponse = new GptResponse();
     }
 
     setupListeners() {
@@ -23,7 +29,7 @@ class ChatGptApi {
 
         this.app.post("/api/recipe", async (req, res) => {
             console.log(req.body.text)
-            let response = await this.gptPrompt.sendRequest(req.body.text);
+            let response = await this.GptResponse.sendRequest(req.body.text);
             console.log('got chatgpt response')
             res.send(response);
         })
