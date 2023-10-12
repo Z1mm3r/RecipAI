@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/index.js"
+    "start": "ts-node-esm server/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +17,9 @@
     "openai": "^3.3.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^0.34.6",
+    "@types/node": "^20.8.4",
     "jsdom": "^22.1.0",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.6"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }

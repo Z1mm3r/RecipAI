@@ -37,4 +37,4 @@ class ChatGptApi {
     }
 }
 
-module.exports = ChatGptApi;
+export = ChatGptApi;

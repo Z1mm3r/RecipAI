@@ -1,7 +1,9 @@
+import GptApi from "./API/ChatGptApi"
+
 require('dotenv').config();
 
+
 const express = require("express");
-const GptApi = require('./API/ChatGptApi');
 const cors = require('cors')
 
 const PORT = process.env.PORT || 3001;
