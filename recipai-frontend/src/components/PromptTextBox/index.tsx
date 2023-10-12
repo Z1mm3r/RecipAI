@@ -1,7 +1,6 @@
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
-import { css } from '@emotion/react'
 
 import { useEffect, useRef, useState } from 'react'
 

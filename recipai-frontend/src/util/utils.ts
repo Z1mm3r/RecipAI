@@ -4,11 +4,11 @@ import { DEV_SERVER_ADDRESS, DEV_SERVER_PORT, PROD_SERVER_ADDRESS, PROD_SERVER_P
 // Start => value at ratio value 0
 // End => value at ratio value 1
 // ratio -> value between [0 - 1]
-export const lerp = (start, end, ratio) => {
+export const lerp = (start: number, end: number, ratio: number) => {
     return start * ratio + end * (1 - ratio);
 }
 
-export const clamp = (min, max, value) => {
+export const clamp = (min: number, max: number, value: number) => {
     if (value < min) {
         return min;
     }
@@ -20,7 +20,7 @@ export const clamp = (min, max, value) => {
 }
 
 //sets value to be a percent string.
-export const pct = (value) => {
+export const pct = (value: number | string) => {
     return (`${value}%`);
 }
 

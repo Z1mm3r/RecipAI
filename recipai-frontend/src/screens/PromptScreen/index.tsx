@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 
 import PromptTextBox from '../../components/PromptTextBox'
 
 import InitialScreenSection from './InitialScreenSection'
-import mockRequest from '../../mock/mockServer.js'
+import mockRequest from '../../mock/mockServer'
 
 import { DEV_SERVER_ADDRESS, DEV_SERVER_PORT, PROD_SERVER_ADDRESS, PROD_SERVER_PORT } from '../../constants'
 import { getURL } from '../../util/utils'
@@ -67,7 +67,7 @@ const PromptScreen = () => {
         }
 
 
-    })
+    }, [])
 
     return (
         <>
