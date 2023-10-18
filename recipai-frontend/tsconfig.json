@@ -3,6 +3,24 @@
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "@emotion/react"
-    }
+        "jsxImportSource": "@emotion/react",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@assets/*": [
+                "src/public/*"
+            ],
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@screens/*": [
+                "src/screens/*"
+            ],
+        }
+    },
+    "include": [
+        "src"
+    ]
 }
