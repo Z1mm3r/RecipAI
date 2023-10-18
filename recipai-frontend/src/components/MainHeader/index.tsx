@@ -27,7 +27,7 @@ const MainHeader = () => {
                             <Logo />
                         </Grid2>
                         <Grid2 display="flex" textAlign={"center"} xs={6}>
-                            <Typography>
+                            <Typography fontSize={36}>
                                 RecipAI
                             </Typography>
                         </Grid2>
