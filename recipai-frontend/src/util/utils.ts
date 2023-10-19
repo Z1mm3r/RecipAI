@@ -24,6 +24,10 @@ export const pct = (value: number | string) => {
     return (`${value}%`);
 }
 
+export const px = (value: number | string) => {
+    return (`${value}px`);
+}
+
 export const getURL = () => {
     return process.env.NODE_ENV == 'development' ? `http://${DEV_SERVER_ADDRESS}:${DEV_SERVER_PORT}` : `${PROD_SERVER_ADDRESS}:${PROD_SERVER_PORT}`
 }
