@@ -18,6 +18,9 @@
             "@screens/*": [
                 "src/screens/*"
             ],
+            "@customTypes/*": [
+                "src/types/*"
+            ],
         }
     },
     "include": [

@@ -1,4 +1,5 @@
 import './App.css';
+import { userLogin } from '@customTypes/userLogin';
 
 import { useState, useEffect } from 'react';
 import PromptScreen from '@screens/PromptScreen'
@@ -21,20 +22,13 @@ const classes = {
 function App() {
 
 
-  const [practiceData, setData] = useState(null);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-
-  }, []);
+  const [userLogin, setUserLogin] = useState<userLogin>({ loggedIn: false, userInfo: null });
 
   return (
     <ThemeProvider theme={themeOptions}>
       <Grid2 container direction={"column"} sx={classes.container}>
         <Grid2 xs={12} sx={classes.element}>
-          <MainHeader />
+          <MainHeader userInfo={userLogin} />
         </Grid2>
         <Grid2 sx={classes.element}>
           <PromptScreen />

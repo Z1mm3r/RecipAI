@@ -52,7 +52,7 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
 
         //TODO this comes from useCallback on parent component.
         //However due to closure if we are not checking for [text] on this level either, we will not be using the updated 'text' value upstream.
-        //Think about this when not half awake.
+        //Think about this when not half
         sendPromptCallback();
 
         //Create the "slide" effect for our button & input.
@@ -73,7 +73,7 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
                 setSlideInterval(0);
             }
         }
-    }, [text])
+    }, [sendPromptCallback])
 
     const handleInputChange = (event) => {
         updateTextCallback(event.target.value);

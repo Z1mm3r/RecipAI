@@ -1,8 +1,12 @@
+import { useMemo } from 'react'
+
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import Typography from '@mui/material/Typography'
 import Card from '@mui/material/Card'
 
 import Logo from '@components/Logo'
+import { userLogin } from '@customTypes/userLogin'
+import RightSideHeader from './rightSideHeader'
 
 
 const classes = {
@@ -16,8 +20,12 @@ const classes = {
 }
 
 
+
+
 //Figure out designs for header, should we have a profile badge, etc?
-const MainHeader = () => {
+const MainHeader = (props: { userInfo: userLogin }) => {
+    const { userInfo } = { ...props }
+
     return (
         <Card sx={classes.container}>
             <Grid2 container alignItems={"center"}>
@@ -37,7 +45,7 @@ const MainHeader = () => {
                     Spacer
                 </Grid2>
                 <Grid2 xs={6} textAlign={"center"}>
-                    Right Side Items
+                    <RightSideHeader userInfo={userInfo} />
                 </Grid2>
             </Grid2>
         </Card>
