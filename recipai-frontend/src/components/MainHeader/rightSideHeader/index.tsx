@@ -1,6 +1,8 @@
 import { userLogin } from "@/types/userLogin"
 
 import { useMemo } from "react"
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2"
+import Button from "@mui/material/Button"
 
 
 const RightSideHeader = (props: { userInfo: userLogin }) => {
@@ -10,9 +12,18 @@ const RightSideHeader = (props: { userInfo: userLogin }) => {
 
     const renderLoggedOutHeader = useMemo(() => {
         return (
-            <>
-                loggedOut
-            </>
+            <Grid2 container>
+                <Grid2 xs={4}>
+                    <Button variant="contained">
+                        Log In
+                    </Button>
+                </Grid2>
+                <Grid2 xs={4}>
+                    <Button variant="outlined">
+                        Sign Up
+                    </Button>
+                </Grid2>
+            </Grid2>
         )
     }, [])
 
