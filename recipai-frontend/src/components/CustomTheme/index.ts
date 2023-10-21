@@ -1,20 +1,22 @@
 import { createTheme } from "@mui/material/styles";
+import { Theme } from "@mui/material/styles";
 
+import { BROWN, GREEN, LIGHT_ORANGE, LIME_GREEN, OFF_WHITE, DARK_ORANGE, MAROON } from "@/constants/colors";
 
-export const themeOptions = createTheme({
+export const themeOptions: Theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#483538',
-      contrastText: '#f98626',
-      light: '#A7D674',
+      main: LIGHT_ORANGE,
+      contrastText: OFF_WHITE,
+      light: LIME_GREEN,
     },
     secondary: {
-      main: '#f50057',
+      main: MAROON,
     },
     text: {
-      secondary: '#E97F25',
-      primary: '#483538',
+      secondary: DARK_ORANGE,
+      primary: BROWN,
     },
   }
 });
