@@ -1,7 +1,9 @@
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
-import { TextField } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
 import { clamp, lerp, pct } from '../../../util/utils'
 import { useCallback, useEffect, useState } from 'react'
+
+import Card from '@mui/material/Card'
 
 import SendPromptButton from '../../../components/SendPromptButton'
 
@@ -9,11 +11,11 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
 
     const { sendPromptCallback, updateTextCallback, text } = { ...props }
 
-    const initialPadding = 25;
+    const initialPadding = 12;
 
     const [classes, setClasses] = useState({
         container: {
-            paddingTop: pct(initialPadding)
+            marginTop: pct(initialPadding)
         }
     });
 
@@ -29,7 +31,7 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
             ...classes,
             container: {
                 ...classes.container,
-                paddingTop: pct(padding)
+                marginTop: pct(padding)
             }
         })
 
@@ -80,19 +82,23 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
     }
 
     return (
-        <>
-            <Grid2 xs={12} style={classes.container}>
+        <Card style={classes.container}>
+            <Grid2 xs={12} >
                 <Grid2 alignItems="center" textAlign="center" container direction="column" spacing={1}>
+                    <Grid2 xs={12}>
+                        <Typography fontSize={24}>
+                            What would you like to cook?
+                        </Typography>
+                    </Grid2>
                     <Grid2 xs={12}>
                         <TextField value={text} onChange={handleInputChange} />
                     </Grid2>
                     <Grid2 xs={12}>
                         <SendPromptButton handleButtonPress={handleButtonPress} />
                     </Grid2>
-
                 </Grid2>
             </Grid2>
-        </>
+        </Card>
     )
 }
 
