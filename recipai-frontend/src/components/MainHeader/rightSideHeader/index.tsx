@@ -12,7 +12,7 @@ const RightSideHeader = (props: { userInfo: userLogin }) => {
 
     const renderLoggedOutHeader = useMemo(() => {
         return (
-            <Grid2 container>
+            <Grid2 container justifyContent={"flex-end"}>
                 <Grid2 xs={4}>
                     <Button variant="contained">
                         Log In

@@ -42,7 +42,7 @@ const MainHeader = (props: { userInfo: userLogin }) => {
                     </Grid2>
                 </Grid2>
                 <Grid2 xs={3} textAlign={"center"}>
-                    Spacer
+                    {/*Spacer*/}
                 </Grid2>
                 <Grid2 xs={6} textAlign={"center"}>
                     <RightSideHeader userInfo={userInfo} />
