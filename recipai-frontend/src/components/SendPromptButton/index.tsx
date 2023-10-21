@@ -8,7 +8,7 @@ const SendPromptButton = (props: { handleButtonPress: () => void }) => {
     return (
         <>
             <Button onClick={handleButtonPress}>
-                Click me bro
+                Create Recipe
             </Button>
         </>
     )
