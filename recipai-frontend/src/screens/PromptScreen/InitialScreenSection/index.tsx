@@ -99,7 +99,7 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
                             <TextField value={text} onChange={handleInputChange} sx={classes.innerContent} />
                         </Grid2>
                         <Grid2 xs={12}>
-                            <SendPromptButton handleButtonPress={handleButtonPress} sx={classes.innerContent} />
+                            <SendPromptButton handleButtonPress={handleButtonPress} />
                         </Grid2>
                     </Grid2>
                 </Grid2>

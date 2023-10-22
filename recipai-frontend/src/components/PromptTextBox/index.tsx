@@ -1,3 +1,4 @@
+import { CardContent } from '@mui/material'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
@@ -55,8 +56,9 @@ const PromptTextBox = (props: { text: string }) => {
 
 
     return (
-        <>
-            <Card>
+        <Card variant="outlined" sx={classes.container}>
+            <CardContent>
+                <Typography textAlign={"center"}> Food Title </Typography>
                 <Grid2 container justifyContent="center" alignItems="flex-start">
                     <Grid2 sx={classes.container}>
                         <Typography sx={classes.text}>
@@ -64,10 +66,8 @@ const PromptTextBox = (props: { text: string }) => {
                         </Typography>
                     </Grid2>
                 </Grid2>
-
-            </Card>
-        </>
-    )
+            </CardContent>
+        </Card>)
 }
 
 export default PromptTextBox;

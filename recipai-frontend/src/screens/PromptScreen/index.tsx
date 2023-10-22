@@ -84,8 +84,9 @@ const PromptScreen = () => {
         <>
             <Grid2 alignItems="center" container direction="column" spacing={12}>
                 <Grid2 xs={12}>
+                    <InitialScreenSection text={text} updateTextCallback={handleTextUpdate} sendPromptCallback={sendPromptCallback} />
+
                 </Grid2>
-                <InitialScreenSection text={text} updateTextCallback={handleTextUpdate} sendPromptCallback={sendPromptCallback} />
                 <Grid2 xs={12}>
                     <PromptTextBox text={responseText} />
                 </Grid2>
