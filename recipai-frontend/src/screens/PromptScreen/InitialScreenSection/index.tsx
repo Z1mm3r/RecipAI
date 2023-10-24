@@ -15,7 +15,8 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
 
     const [classes, setClasses] = useState({
         container: {
-            marginTop: pct(initialPadding)
+            marginTop: pct(initialPadding),
+            maxWidth: pct(80),
         },
         innerContent: {
             margin: px(0),
@@ -86,21 +87,19 @@ const InitialScreenSection = (props: { text: string, updateTextCallback: (string
     }
 
     return (
-        <Card sx={classes.container} variant={"outlined"}>
+        <Card sx={classes.container} variant={"outlined"} id={"call-to-action-card"}>
             <CardContent>
-                <Grid2 xs={12} sx={classes.innerContent} >
-                    <Grid2 alignItems="center" textAlign="center" container direction="column" spacing={1}>
-                        <Grid2 xs={12} sx={classes.innerContent}>
-                            <Typography fontSize={24} sx={classes.innerContent}>
-                                What would you like to cook?
-                            </Typography>
-                        </Grid2>
-                        <Grid2 xs={12} sx={classes.innerContent}>
-                            <TextField value={text} onChange={handleInputChange} sx={classes.innerContent} />
-                        </Grid2>
-                        <Grid2 xs={12}>
-                            <SendPromptButton handleButtonPress={handleButtonPress} />
-                        </Grid2>
+                <Grid2 alignItems="center" textAlign="center" container direction="column" spacing={1}>
+                    <Grid2 xs={12} sx={classes.innerContent}>
+                        <Typography fontSize={24} sx={classes.innerContent}>
+                            What would you like to cook?
+                        </Typography>
+                    </Grid2>
+                    <Grid2 xs={12} sx={classes.innerContent}>
+                        <TextField value={text} onChange={handleInputChange} sx={classes.innerContent} />
+                    </Grid2>
+                    <Grid2 xs={12}>
+                        <SendPromptButton handleButtonPress={handleButtonPress} />
                     </Grid2>
                 </Grid2>
             </CardContent>
