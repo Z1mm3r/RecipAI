@@ -8,6 +8,7 @@ import mockRequest from '../../mock/mockServer'
 
 import { DEV_SERVER_ADDRESS, DEV_SERVER_PORT, PROD_SERVER_ADDRESS, PROD_SERVER_PORT } from '../../constants'
 import { getURL } from '../../util/utils'
+import { Divider } from '@mui/material'
 
 const PromptScreen = () => {
 
@@ -81,20 +82,15 @@ const PromptScreen = () => {
     }, [text])
 
     return (
-        <>
-            <Grid2 container alignItems="center" direction="column" id={"PromptScreen"}>
-                <Grid2 xs={8} alignItems="center" justifyContent="center" id={"smallerGrid1"}>
-                    <InitialScreenSection text={text} updateTextCallback={handleTextUpdate} sendPromptCallback={sendPromptCallback} />
-                </Grid2>
-                <Grid2 xs={10}>
-                    <PromptTextBox text={responseText} />
-                </Grid2>
-            </Grid2 >
-
-
-            <div />
-
-        </>
+        <Grid2 container alignItems="center" justifyContent="center" direction="column">
+            <Grid2 xs={8} display="flex" alignItems="center" justifyContent="center">
+                <InitialScreenSection text={text} updateTextCallback={handleTextUpdate} sendPromptCallback={sendPromptCallback} />
+            </Grid2>
+            <Grid2 xs={8} padding={2}></Grid2>
+            <Grid2 display="flex" alignItems={"center"} justifyContent={"center"} xs={8}>
+                <PromptTextBox text={responseText} />
+            </Grid2>
+        </Grid2 >
     )
 }
 
