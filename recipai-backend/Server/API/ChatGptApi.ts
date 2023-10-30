@@ -1,11 +1,12 @@
+import express = require('express')
 
 const GptResponse = require('./GptPrompt');
 
 class ChatGptApi {
 
     host: string;
-    app: any;
-    port: string;
+    app: express.Application;
+    port: number;
     GptResponse: any;
 
     constructor(app, port, host) {
@@ -27,7 +28,7 @@ class ChatGptApi {
             res.json({ message: "Class based endpoint check" });
         });
 
-        this.app.post("/api/recipe", async (req, res) => {
+        this.app.post("/api/recipePrompt", async (req, res) => {
             console.log(req.body.text)
             let response = await this.GptResponse.sendRequest(req.body.text);
             console.log('got chatgpt response')
@@ -35,6 +36,7 @@ class ChatGptApi {
         })
 
     }
+
 }
 
 export = ChatGptApi;

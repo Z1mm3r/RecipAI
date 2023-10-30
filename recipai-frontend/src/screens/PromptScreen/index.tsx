@@ -21,7 +21,7 @@ const PromptScreen = () => {
 
         let url = getURL();
         console.log(url);
-        fetch(`${url}/api/recipe`, {
+        fetch(`${url}/api/recipePrompt`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
