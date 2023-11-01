@@ -8,6 +8,8 @@
             "node"
         ],
         "outDir": "./dist",
-        "rootDir": "./Server",
+        "rootDir": "./",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
     },
 }
