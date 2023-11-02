@@ -1,7 +1,10 @@
 import { EntityManager, EntityRepository } from "@mikro-orm/core";
 import { MikroORM, PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
+import 'reflect-metadata';
+
 import { Recipe } from './entities'
+import { User } from './entities'
 
 import http from 'http'
 
@@ -14,6 +17,7 @@ require('dotenv').config();
 export const DI = {} as {
     orm: MikroORM,
     em: EntityManager,
+    userRepository: EntityRepository<User>,
     recipeRepository: EntityRepository<Recipe>,
     server: http.Server;
 }

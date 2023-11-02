@@ -1,26 +1,24 @@
-"use strict";
-const { EntitySchema } = require("@mikro-orm/core");
-const { BaseEntity } = require("./BaseEntity");
-class Recipe extends BaseEntity {
-    constructor(title, author, content) {
+import { Entity, Property, Unique, OneToOne, ManyToOne } from '@mikro-orm/core'
+import { CustomBaseEntity } from './CustomBaseEntity';
+import { User } from './User';
+
+@Entity()
+export class Recipe extends CustomBaseEntity {
+
+    @ManyToOne()
+    author: User;
+
+    @Property()
+    name: string;
+
+    @Property()
+    text: string;
+
+    constructor(name: string, text: string, author: User) {
         super();
-        this.title = title;
+        this.name = name;
+        this.text = text;
         this.author = author;
-        this.content = content;
     }
+
 }
-const schema = new EntitySchema({
-    class: Recipe,
-    extends: "BaseEntity",
-    properties: {
-        title: { type: "string" },
-        author: { type: "string" },
-        content: { type: "string" },
-    },
-});
-module.exports = {
-    Recipe,
-    entity: Recipe,
-    schema,
-    label: "recipeRepository",
-};

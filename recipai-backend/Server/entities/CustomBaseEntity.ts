@@ -1,11 +1,10 @@
-import { v4 } from 'uuid';
 
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 
 @Entity()
 export abstract class CustomBaseEntity {
     @PrimaryKey()
-    uuid: string = v4();
+    id!: number;
 
     @Property()
     createdAt: Date = new Date();
