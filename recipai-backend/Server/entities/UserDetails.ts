@@ -13,25 +13,21 @@ export class UserDetails extends CustomBaseEntity {
     password: string;
 
     @Property()
-    firstName: string;
+    firstName?: string;
 
     @Property()
-    lastName: string;
+    lastName?: string;
 
 
-    @OneToOne(() => User)
+    @OneToOne({ mappedBy: 'details' })
     user: User;
 
-    constructor(password: string, firstName: string, lastName: string) {
+    constructor(password: string, firstName?: string, lastName?: string) {
         super();
-
-        bcrypt.hash(password, 3, (err, hash) => {
-            this.password = hash;
-        })
 
         this.firstName = firstName;
         this.lastName = lastName;
-
+        this.password = password;
     }
 
 }

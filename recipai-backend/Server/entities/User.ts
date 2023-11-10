@@ -11,12 +11,12 @@ export class User extends CustomBaseEntity {
     userName: string;
 
     @Property()
-    bio: string;
+    bio?: string;
 
     @Property()
-    profilePicture: string;
+    profilePicture?: string;
 
-    @OneToOne()
+    @OneToOne({ inversedBy: 'user' })
     details: UserDetails;
 
     @OneToMany(() => Recipe, recipe => recipe.author)

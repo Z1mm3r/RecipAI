@@ -1,11 +1,17 @@
 import express = require('express')
+import UserController from '../controllers/userController';
+import { MikroORM, PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 class DatabaseAPI {
 
     app: express.Application;
+    userController: UserController;
+    orm: MikroORM;
 
-    constructor(app: express.Application) {
+    constructor(app: express.Application, orm: MikroORM) {
         this.app = app;
+        this.orm = orm;
+        this.userController = new UserController(orm)
     }
 
     setupDatabaseEndpoints() {
@@ -23,10 +29,11 @@ class DatabaseAPI {
         this.app.delete("/api/users", (req, res) => {
             res.json({ message: "delete" });
         });
-        this.app.post("/api/users", (req, res) => {
-            res.json({ message: "create new user" });
+        this.app.post("/api/users", async (req, res) => {
+            console.log(req.body);
+            await this.userController.handleCreationRequest(req, res);
+            //res.json({ message: "create new user" });
         })
-
         this.app.post("/api/users/:id", (req, res) => {
             res.json({ message: "update user" });
         });
@@ -45,10 +52,10 @@ class DatabaseAPI {
         this.app.post("/api/recipes", (req, res) => {
             res.json({ message: "create new recipe" });
         })
-
         this.app.post("/api/recipes/:id", (req, res) => {
             res.json({ message: "update recipe" });
         });
     }
 }
 
+export default DatabaseAPI

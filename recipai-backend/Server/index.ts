@@ -1,31 +1,19 @@
 require('dotenv').config();
 
-import { EntityManager, EntityRepository } from "@mikro-orm/core";
+import { EntityManager, EntityRepository, RequestContext } from "@mikro-orm/core";
 import { MikroORM, PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import 'reflect-metadata';
-import { RequestContext } from "@mikro-orm/core/utils";
 import config from '../mikro-orm.config'
 
 import { Recipe, UserDetails } from './entities'
 import { User } from './entities'
 
 import http from 'http'
+import API from "./API";
+import { DI } from "./interfaces";
 
-import GptApi from "./API/ChatGptApi"
-
-
-
-
-
-export const DI = {} as {
-    orm: MikroORM,
-    em: EntityManager,
-    userRepository: EntityRepository<User>,
-    userDetailsRepository: EntityRepository<UserDetails>,
-    recipeRepository: EntityRepository<Recipe>,
-    server: http.Server;
-}
+const DI = {} as DI;
 
 const express = require("express");
 
@@ -42,17 +30,8 @@ const app = express();
 //     RequestContext.create(orm.em, next);
 // })
 
-app.set('host', HOST);
-
-app.use(cors())
-app.use(express.json()); // Used to add req.body
-
-const api = new GptApi(app, PORT, HOST);
-
-api.setupListeners();
-api.setupEndpoints();
-
-console.log(config.dbName)
+//TODO MOVE THIS AROUND
+//const api = new GptApi(app, PORT, HOST);
 
 //MIKRO-ORM STUFF?
 export const init = (async () => {
@@ -64,6 +43,25 @@ export const init = (async () => {
     DI.server = app.listen(DBPORT, () => {
         console.log(`MikroORM is listening at  ${HOST}:${DBPORT}`);
     })
+
+    app.use((req, res, next) => {
+        RequestContext.create(DI.orm.em, next)
+    })
+
+    app.set('host', HOST);
+    app.use(cors())
+    app.use(express.json()); // Used to add req.body
+
+    const api = new API(app, PORT, HOST, DI);
+
+    api.setupListeners();
+    api.setupEndpoints();
+    console.log(config.dbName)
+
 })();
+
+
+
+
 
 
