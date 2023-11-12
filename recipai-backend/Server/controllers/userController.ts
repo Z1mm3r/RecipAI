@@ -2,31 +2,30 @@ import { MikroORM, PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { User, UserDetails } from "../entities";
 import { Request, Response } from "express";
 import bcrypt from 'bcrypt'
+import { DI } from "../interfaces";
+
+type userFields = "userName" | "bio" | "profilePicture" | "id";
+
 
 class UserController {
-    orm: MikroORM;
+    DI: DI;
 
-    constructor(orm: MikroORM) {
-        this.orm = orm;
+
+    constructor(DI: DI) {
+        this.DI = DI;
     }
 
     async createNewUser(req: Request) {
-        console.log(req.body)
         if (req.body.userName && req.body.email && req.body.password) {
             const newUser = new User(req.body.userName, req.body.email);
             let generatedHash;
             await bcrypt.hash(req.body.password, 3).then(hash => {
                 generatedHash = hash;
-                console.log("hashing")
             }).catch(err => console.log("error"))
 
-            console.log("hashing done")
-            console.log(generatedHash)
-
             const newDetails = new UserDetails(generatedHash)
-            console.log(newDetails)
             newUser.details = newDetails;
-            await this.orm.em.persistAndFlush([newUser]);
+            await this.DI.orm.em.persistAndFlush([newUser]);
             return newUser.id;
         }
         else {
@@ -34,10 +33,28 @@ class UserController {
         }
     }
 
+    async getUser(id: string, fields: userFields[], res?: Response) {
+        try {
+            const user = await this.DI.userRepository.findOneOrFail(Number(id), { fields: [...fields] })
+            return user;
+        }
+        catch (e: any) {
+            if (res) {
+                res.status(400).json({ message: e.message })
+            }
+            return null;
+        }
+    }
+
 
     async handleCreationRequest(req: Request, res: Response) {
         let value = await this.createNewUser(req);
         res.json({ message: value });
+    }
+
+    async handlePublicUserRequest(req: Request, res: Response) {
+        let user = await this.getUser(req.params.id, ['userName', 'profilePicture', 'bio', 'id']);
+        res.json(user)
     }
 }
 

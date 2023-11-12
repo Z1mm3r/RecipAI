@@ -22,7 +22,7 @@ class API {
         this.app = app;
         this.port = port;
         this.GptResponse = new GptResponse();
-        this.databaseAPI = new DatabaseAPI(app, DI.orm);
+        this.databaseAPI = new DatabaseAPI(app, DI);
         this.databaseInterface = DI;
     }
     setupListeners() {

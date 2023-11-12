@@ -1,17 +1,18 @@
 import express = require('express')
 import UserController from '../controllers/userController';
 import { MikroORM, PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { DI } from "../interfaces";
 
 class DatabaseAPI {
 
     app: express.Application;
     userController: UserController;
-    orm: MikroORM;
+    DI: DI;
 
-    constructor(app: express.Application, orm: MikroORM) {
+    constructor(app: express.Application, DI: DI) {
         this.app = app;
-        this.orm = orm;
-        this.userController = new UserController(orm)
+        this.DI = DI;
+        this.userController = new UserController(DI)
     }
 
     setupDatabaseEndpoints() {
@@ -23,7 +24,8 @@ class DatabaseAPI {
         this.app.get("/api/users", (req, res) => {
             res.json({ message: "return all users" });
         });
-        this.app.get("/api/users/:id", (req, res) => {
+        this.app.get("/api/users/:id", async (req, res) => {
+            await this.userController.handlePublicUserRequest(req, res);
             res.json({ message: "return specific user" });
         });
         this.app.delete("/api/users", (req, res) => {
