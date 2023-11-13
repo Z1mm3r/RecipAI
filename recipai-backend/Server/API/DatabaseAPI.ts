@@ -28,8 +28,9 @@ class DatabaseAPI {
             await this.userController.handlePublicUserRequest(req, res);
             res.json({ message: "return specific user" });
         });
-        this.app.delete("/api/users", (req, res) => {
-            res.json({ message: "delete" });
+        this.app.delete("/api/users/:id", async (req, res) => {
+            await this.userController.handleDeleteUserRequest(req, res);
+            //res.json({ message: "delete" });
         });
         this.app.post("/api/users", async (req, res) => {
             console.log(req.body);

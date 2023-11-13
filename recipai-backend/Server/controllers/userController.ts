@@ -33,7 +33,7 @@ class UserController {
         }
     }
 
-    async getUser(id: string, fields: userFields[], res?: Response) {
+    private async getUser(id: string, fields?: userFields[], res?: Response) {
         try {
             const user = await this.DI.userRepository.findOneOrFail(Number(id), { fields: [...fields] })
             return user;
@@ -47,6 +47,8 @@ class UserController {
     }
 
 
+
+
     async handleCreationRequest(req: Request, res: Response) {
         let value = await this.createNewUser(req);
         res.json({ message: value });
@@ -55,6 +57,29 @@ class UserController {
     async handlePublicUserRequest(req: Request, res: Response) {
         let user = await this.getUser(req.params.id, ['userName', 'profilePicture', 'bio', 'id']);
         res.json(user)
+    }
+
+    async handleDeleteUserRequest(req: Request, res: Response) {
+        //TODO authenticate we are allowed to delete.
+
+        console.log(`Deleting ${req.params.id}`)
+        let number: number = Number(req.params.id)
+
+        //NaN? error out.
+        if (isNaN(number)) {
+            res.status(400).json({ message: "Error, id given is NaN" })
+            return;
+        }
+        //Once authenticated, delete user.
+        const user = await this.DI.userRepository.findOne(Number(req.params.id))
+        //const details = user.details
+        //this.DI.em.remove(details)
+
+        //TODO create specific delete that also cleans up user details?
+        await this.DI.em.removeAndFlush(user);
+        res.json({
+            message: `Deleted ${req.params.id}`
+        })
     }
 }
 
