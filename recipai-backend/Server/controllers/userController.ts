@@ -72,14 +72,18 @@ class UserController {
         }
         //Once authenticated, delete user.
         const user = await this.DI.userRepository.findOne(Number(req.params.id))
-        //const details = user.details
-        //this.DI.em.remove(details)
 
         //TODO create specific delete that also cleans up user details?
         await this.DI.em.removeAndFlush(user);
         res.json({
             message: `Deleted ${req.params.id}`
         })
+    }
+
+    async handlePublicUsersRequest(req: Request, res: Response) {
+        //Get and return all users.
+        const users = await this.DI.userRepository.findAll({ fields: ["id", "userName"] })
+        res.json({ users: users })
     }
 }
 
