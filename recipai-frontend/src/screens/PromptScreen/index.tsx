@@ -15,7 +15,6 @@ const PromptScreen = () => {
     const [responseText, setResponseText] = useState("");
     const [text, setText] = useState("");
 
-
     const handlePromptSend = useCallback(() => {
         console.log("Sending message with: ", text);
 
