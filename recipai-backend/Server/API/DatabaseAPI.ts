@@ -33,8 +33,8 @@ class DatabaseAPI {
         this.app.post("/api/users", async (req, res) => {
             await this.userController.handleCreationRequest(req, res);
         })
-        this.app.post("/api/users/:id", (req, res) => {
-            res.json({ message: "update user" });
+        this.app.patch("/api/users/:id", (req, res) => {
+            this.userController.handleUserUpdateRequest(req, res)
         });
     }
 
