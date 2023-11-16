@@ -15,13 +15,12 @@ const PromptScreen = () => {
     const [responseText, setResponseText] = useState("");
     const [text, setText] = useState("");
 
-
     const handlePromptSend = useCallback(() => {
         console.log("Sending message with: ", text);
 
         let url = getURL();
         console.log(url);
-        fetch(`${url}/api/recipe`, {
+        fetch(`${url}/api/recipePrompt`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
