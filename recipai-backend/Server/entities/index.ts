@@ -9,4 +9,3 @@ export * from './Recipe'
 export * from './User'
 export * from './UserDetails'
 
-//module.exports = [User, Recipe, UserDetails, CustomBaseEntity];

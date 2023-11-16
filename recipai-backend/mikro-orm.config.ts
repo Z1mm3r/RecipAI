@@ -15,9 +15,3 @@ const options: Options = {
 
 
 export default options
-
-// module.exports = {
-//     entities: allEntities,
-//     type: "postgresql",
-
-// };

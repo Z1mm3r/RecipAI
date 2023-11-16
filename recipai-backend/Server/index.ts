@@ -25,14 +25,6 @@ const HOST = process.env.HOST || '127.0.0.1';
 
 const app = express();
 
-//Mikro-ORM
-// app.use((req, res, next) => {
-//     RequestContext.create(orm.em, next);
-// })
-
-//TODO MOVE THIS AROUND
-//const api = new GptApi(app, PORT, HOST);
-
 //MIKRO-ORM STUFF?
 export const init = (async () => {
     DI.orm = await MikroORM.init<PostgreSqlDriver>(config);
