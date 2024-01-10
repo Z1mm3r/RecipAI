@@ -46,7 +46,10 @@ class UserDetailsController {
         }
     }
 
-
+    async handleUserDetailUpdateRequest(req: Request, res: Response) {
+        //TODO Authenticate
+        await this.updateUserDetails(req, res)
+    }
 
 }
 

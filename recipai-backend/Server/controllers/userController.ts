@@ -6,16 +6,22 @@ import bcrypt from 'bcrypt'
 import { DI } from "../interfaces";
 
 import { patchProps, trimFields } from "../utils";
+import UserDetailsController from "./userDetailsController";
+import { populate } from "dotenv";
 
 type userFields = "userName" | "bio" | "profilePicture" | "id";
 const patchFields = ["userName", "bio", "profilePicture"];
 
+type privateFields = "details";
+type detailFields = "id" | "firstName" | "lastName"
+
 class UserController {
     DI: DI;
+    userDetailController: UserDetailsController;
 
-
-    constructor(DI: DI) {
+    constructor(DI: DI, userDetailController: UserDetailsController) {
         this.DI = DI;
+        this.userDetailController = userDetailController;
     }
 
     // stringToFields(string: string[]): userFields[] {
@@ -33,7 +39,9 @@ class UserController {
                 generatedHash = hash;
             }).catch(err => console.log("error"))
 
-            const newDetails = new UserDetails(generatedHash)
+            const newDetails = new UserDetails(generatedHash, req.body?.firstName ?? null, req.body?.lastName ?? null)
+            console.log(newDetails)
+
             newUser.details = newDetails;
             await this.DI.orm.em.persistAndFlush([newUser]);
             return newUser.id;
@@ -124,6 +132,34 @@ class UserController {
 
         await this.updateUser(req, res);
 
+    }
+
+    ////////////userDetails CRUD
+    private async serverGetUserDetailsViaUser(id: number, fields?: detailFields[]) {
+        let selectedFields = [""]
+        const user = await this.DI.userRepository.findOneOrFail(Number(id), { populate: ["details"] })
+        console.log(user.details)
+        let output = {};
+        if (fields) {
+            for (let i in fields) {
+                output[fields[i]] = user.details[fields[i]]
+            }
+        }
+        else {
+            output = { firstName: user.details.firstName, lastName: user.details.lastName }
+        }
+        return output
+    }
+    async getUserDetailsViaUser(req: Request, fields?: detailFields[]) {
+        //TODO Authenticate
+
+        let details = await this.serverGetUserDetailsViaUser(Number(req.params.id), fields);
+        return details
+    }
+
+    async handleUserDetailsRequest(req: Request, res: Response) {
+        let details = await this.getUserDetailsViaUser(req);
+        res.json({ userDetails: details })
     }
 }
 

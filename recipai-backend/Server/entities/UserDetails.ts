@@ -18,10 +18,6 @@ export class UserDetails extends CustomBaseEntity {
     @Property()
     lastName?: string;
 
-
-    @OneToOne({ mappedBy: 'details' })
-    user: User;
-
     constructor(password: string, firstName?: string, lastName?: string) {
         super();
 
