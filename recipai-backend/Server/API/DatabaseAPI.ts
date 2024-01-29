@@ -43,10 +43,18 @@ class DatabaseAPI {
     }
 
     setupDetailEndpoints() {
+        //Details get created when User is created.
+        //Only need read, update.
         this.app.get("/api/users/:id/details", async (req, res) => {
             //TODO authenticate
             console.log("ding")
             await this.userController.handleUserDetailsRequest(req, res)
+        })
+
+        this.app.patch("/api/users/:id/details", async (req, res) => {
+            //TODO Authenticate
+            console.log("Patching Details")
+            await this.userController.handleUserDetailsUpdateRequest(req, res)
         })
     }
 

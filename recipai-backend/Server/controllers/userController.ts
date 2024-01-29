@@ -1,4 +1,4 @@
-import { MikroORM, PostgreSqlDriver } from "@mikro-orm/postgresql";
+import { MikroORM, PostgreSqlDriver, RunQueryBuilder } from "@mikro-orm/postgresql";
 import { wrap } from '@mikro-orm/core'
 import { User, UserDetails } from "../entities";
 import { Request, Response } from "express";
@@ -157,10 +157,33 @@ class UserController {
         return details
     }
 
+
+
     async handleUserDetailsRequest(req: Request, res: Response) {
         let details = await this.getUserDetailsViaUser(req);
         res.json({ userDetails: details })
     }
+
+    async updateUserDetailsViaUser(req: Request, res: Response) {
+        //TODO Authenticate
+        const user = await this.DI.userRepository.findOneOrFail(Number(req.params.id), { populate: ["details"] })
+        console.log("USER OBJ DETAILS ID")
+        console.log(user.details.id)
+        if (user.details.id) {
+            let updatedValues = await this.userDetailController.updateUserDetailsServer(Number(user.details.id), req.body)
+            res.json({ message: updatedValues });
+        }
+        else {
+            res.status(404).json({ message: "Error, could not find details for this user." })
+        }
+
+    }
+
+    async handleUserDetailsUpdateRequest(req: Request, res: Response) {
+        await this.updateUserDetailsViaUser(req, res)
+    }
+
+
 }
 
 export default UserController
