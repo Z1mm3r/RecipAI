@@ -34,10 +34,10 @@ class UserController {
     private async createNewUser(req: Request) {
         if (req.body.userName && req.body.email && req.body.password) {
             const newUser = new User(req.body.userName, req.body.email);
-            let generatedHash;
-            await bcrypt.hash(req.body.password, 3).then(hash => {
-                generatedHash = hash;
-            }).catch(err => console.log("error"))
+            let generatedHash = await this.userDetailController.generatePasswordHash(req.body.password);
+            // await bcrypt.hash(req.body.password, 3).then(hash => {
+            //     generatedHash = hash;
+            // }).catch(err => console.log("error"))
 
             const newDetails = new UserDetails(generatedHash, req.body?.firstName ?? null, req.body?.lastName ?? null)
             console.log(newDetails)
@@ -76,8 +76,6 @@ class UserController {
 
     private async getUser(id: string, fields?: userFields[], res?: Response) {
         console.log("get user")
-        console.log(fields)
-        console.log([...fields])
         try {
             const user = await this.DI.userRepository.findOneOrFail(Number(id), { fields: [...fields] })
             return user;
@@ -138,7 +136,6 @@ class UserController {
     private async serverGetUserDetailsViaUser(id: number, fields?: detailFields[]) {
         let selectedFields = [""]
         const user = await this.DI.userRepository.findOneOrFail(Number(id), { populate: ["details"] })
-        console.log(user.details)
         let output = {};
         if (fields) {
             for (let i in fields) {
@@ -160,6 +157,7 @@ class UserController {
 
 
     async handleUserDetailsRequest(req: Request, res: Response) {
+        //TODO DONT RETURN PASSWORD
         let details = await this.getUserDetailsViaUser(req);
         res.json({ userDetails: details })
     }
@@ -167,8 +165,6 @@ class UserController {
     async updateUserDetailsViaUser(req: Request, res: Response) {
         //TODO Authenticate
         const user = await this.DI.userRepository.findOneOrFail(Number(req.params.id), { populate: ["details"] })
-        console.log("USER OBJ DETAILS ID")
-        console.log(user.details.id)
         if (user.details.id) {
             let updatedValues = await this.userDetailController.updateUserDetailsServer(Number(user.details.id), req.body)
             res.json({ message: updatedValues });

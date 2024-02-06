@@ -47,7 +47,6 @@ class DatabaseAPI {
         //Only need read, update.
         this.app.get("/api/users/:id/details", async (req, res) => {
             //TODO authenticate
-            console.log("ding")
             await this.userController.handleUserDetailsRequest(req, res)
         })
 

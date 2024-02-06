@@ -18,8 +18,21 @@ class UserDetailsController {
         this.DI = DI;
     }
 
+    async generatePasswordHash(password: string) {
+        let generatedHash: string;
+        await bcrypt.hash(password, 3).then(hash => {
+            generatedHash = hash;
+        }).catch(err => console.log("error"))
+        return generatedHash
+    }
+
     private async updateDetails(id: number, fields, res?) {
         const updateSet = patchProps(fields, patchFields)
+
+        if ("password" in updateSet) {
+            updateSet["password"] = await this.generatePasswordHash(String(updateSet["password"]));
+        }
+
         const detailsToUpdate = this.DI.em.getReference(UserDetails, Number(id))
         wrap(detailsToUpdate).assign({
             ...updateSet

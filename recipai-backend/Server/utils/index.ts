@@ -9,15 +9,10 @@ export const patchProps = (props, keys): {} => {
 
 export const trimFields = <Type>(object: Type, fields: string[]): {} => {
     const output = {}
-    console.log("fields")
-    console.log(fields)
-    console.log("object keys")
-    console.log(Object.keys(object))
 
     Object.keys(object).map(key => {
         if (fields.includes(key)) {
             output[key] = object[key];
-            console.log("found a match")
         }
     });
     return output;
