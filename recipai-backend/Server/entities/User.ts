@@ -16,7 +16,7 @@ export class User extends CustomBaseEntity {
     @Property()
     profilePicture?: string;
 
-    @OneToOne({ inversedBy: 'user' })
+    @OneToOne()
     details: UserDetails;
 
     @OneToMany(() => Recipe, recipe => recipe.author)
