@@ -16,16 +16,16 @@ import { DI } from "./interfaces";
 const DI = {} as DI;
 
 const express = require("express");
-
 const cors = require('cors')
-
 const PORT = process.env.PORT || 3001;
 const DBPORT = process.env.DBPORT || 3002;
 const HOST = process.env.HOST || '127.0.0.1';
-
 const app = express();
 
-//MIKRO-ORM STUFF?
+const session = require('express-session')
+const redis = require('redis');
+const RedisStore = require('connect-redis').default
+
 export const init = (async () => {
     DI.orm = await MikroORM.init<PostgreSqlDriver>(config);
     DI.em = DI.orm.em;
@@ -35,6 +35,28 @@ export const init = (async () => {
     DI.server = app.listen(DBPORT, () => {
         console.log(`MikroORM is listening at  ${HOST}:${DBPORT}`);
     })
+
+    const redisClient = redis.createClient({
+        url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
+    })
+
+    redisClient.connect().catch(console.error);
+
+    redisClient.on('error', (err) => {
+        console.log('Redis error: ', err);
+    })
+
+    app.use(session({
+        store: new RedisStore({ client: redisClient }),
+        secret: process.env.REDIS_SECRET,
+        saveUninitialized: false,
+        resave: false,
+        cookie: {
+            secure: true, //true if using https false if not.
+            httpOnly: true,
+            maxAge: 1000 * 60 * 10 // 10 minutes.
+        }
+    }))
 
     app.use((req, res, next) => {
         RequestContext.create(DI.orm.em, next)

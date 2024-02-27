@@ -88,6 +88,41 @@ class UserController {
         }
     }
 
+    private async getUserByUserName(userName: string, fields?: userFields[]) {
+        console.log("get user")
+        try {
+            const user = await this.DI.userRepository.findOneOrFail({ userName: userName }, { fields: [...fields] })
+            return user;
+        }
+        catch (e: any) {
+            return null;
+        }
+    }
+    ///////////Login | Logout  /////////////
+    async login(req, res) {
+        const user = await this.getUserByUserName(req.body.userName, ["id"]);
+        const details: any = await this.serverGetUserDetailsViaUser(user.id, ["id"])
+        const valid = await this.userDetailController.authenticate(details.id, req.body.password)
+
+        if (valid) {
+            //Create Session
+            req.session.regenerate(function (err) {
+                req.session.user = req.body.userName
+            })
+            console.log(`User ${req.body.userName} logged in.`)
+        }
+        return valid;
+    }
+
+    async logout(req, res) {
+        req.session.user = null;
+        req.session.save()
+        //TODO test this & logout... see if we can see anything on redis webapp later
+    }
+
+
+    ///////////User CRUD////////////////////
+
     async handleCreationRequest(req: Request, res: Response) {
         let value = await this.createNewUser(req);
         res.json({ message: value });
@@ -153,8 +188,6 @@ class UserController {
         let details = await this.serverGetUserDetailsViaUser(Number(req.params.id), fields);
         return details
     }
-
-
 
     async handleUserDetailsRequest(req: Request, res: Response) {
         //TODO DONT RETURN PASSWORD

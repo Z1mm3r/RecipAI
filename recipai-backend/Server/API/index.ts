@@ -3,6 +3,8 @@ import express = require('express')
 import { setupChatGptEndpoints } from './ChatGptApi';
 import DatabaseAPI from './DatabaseAPI';
 import { DI } from '../interfaces';
+import SessionAPI from './SessionAPI';
+import { Session } from 'inspector';
 
 const GptResponse = require('./GptPrompt');
 
@@ -14,6 +16,7 @@ class API {
     server: any;
     databaseAPI: DatabaseAPI;
     databaseInterface: DI;
+    sessionAPI: SessionAPI;
 
     //ADD DI CODE HERE? OR ADD A REFERENCE BACK TO SERVER STUFF.
 
@@ -23,6 +26,7 @@ class API {
         this.port = port;
         this.GptResponse = new GptResponse();
         this.databaseAPI = new DatabaseAPI(app, DI);
+        this.sessionAPI = new SessionAPI(app, this.databaseAPI.userController, this.databaseAPI.userDetailsController)
         this.databaseInterface = DI;
     }
     setupListeners() {
@@ -35,6 +39,7 @@ class API {
     setupEndpoints() {
         setupChatGptEndpoints(this);
         this.databaseAPI.setupDatabaseEndpoints()
+        this.sessionAPI.setupSessionEndpoints()
     }
 }
 

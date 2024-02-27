@@ -74,6 +74,24 @@ class UserDetailsController {
         await this.updateUserDetails(req, res)
     }
 
+    async authenticate(userDetailsId: number, password: string) {
+        const details = await this.getUserDetails(userDetailsId, ["password"]);
+        let passed = false;
+
+        passed = await bcrypt.compare(password, details.password);
+        console.log("result:")
+        console.log(passed)
+        if (passed) {
+            console.log("Password Authenticated")
+            return true;
+        }
+        else {
+            console.log("Incorrect Password")
+            console.log(passed)
+            return false;
+        }
+    }
+
 }
 
 export default UserDetailsController
