@@ -23,6 +23,7 @@ class SessionAPI {
             if (!loggedIn) {
                 console.log("Error loggin in")
             }
+            res.json({ loggedIn: true, username: req.body.userName })
         })
     }
 

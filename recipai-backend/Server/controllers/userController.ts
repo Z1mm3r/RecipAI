@@ -101,14 +101,28 @@ class UserController {
     ///////////Login | Logout  /////////////
     async login(req, res) {
         const user = await this.getUserByUserName(req.body.userName, ["id"]);
+        if (user == null) {
+            console.log("could not find user")
+            res.status(401)
+            return false;
+        }
         const details: any = await this.serverGetUserDetailsViaUser(user.id, ["id"])
+        if (details == null) {
+            console.log("could not find details.")
+            res.status(401)
+            return false;
+        }
         const valid = await this.userDetailController.authenticate(details.id, req.body.password)
 
         if (valid) {
             //Create Session
-            req.session.regenerate(function (err) {
-                req.session.user = req.body.userName
-            })
+            //TODO, are we  using this?
+            // let output = req.session.regenerate(function (err) {
+            //     console.log("Regenerate Callback")
+            //     req.session.auth = req.body.userName
+            // })
+            // console.log(output)
+            req.session.auth = req.body.userName
             console.log(`User ${req.body.userName} logged in.`)
         }
         return valid;

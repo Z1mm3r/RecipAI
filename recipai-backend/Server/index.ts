@@ -46,24 +46,42 @@ export const init = (async () => {
         console.log('Redis error: ', err);
     })
 
-    app.use(session({
+    redisClient.on('connect', () => {
+        console.log("Connected to redis")
+    })
+
+    const sess = {
         store: new RedisStore({ client: redisClient }),
         secret: process.env.REDIS_SECRET,
         saveUninitialized: false,
         resave: false,
+        name: "sid",
         cookie: {
-            secure: true, //true if using https false if not.
             httpOnly: true,
+            sameSite: "none",
             maxAge: 1000 * 60 * 10 // 10 minutes.
         }
-    }))
+    }
+
+    //TODO
+    // if (app.get('env') === 'production') {
+    //     sess.cookie.secure = true //true if using https false if not.
+    // }
+
+    app.use(session(sess))
 
     app.use((req, res, next) => {
         RequestContext.create(DI.orm.em, next)
     })
 
     app.set('host', HOST);
-    app.use(cors())
+
+    //TODO dont leave this
+    const corsOptions = {
+        origin: "http://localhost:5173",
+        credentials: true
+    }
+    app.use(cors(corsOptions))
     app.use(express.json()); // Used to add req.body
 
     const api = new API(app, PORT, HOST, DI);
