@@ -22,7 +22,7 @@ const DBPORT = process.env.DBPORT || 3002;
 const HOST = process.env.HOST || '127.0.0.1';
 const app = express();
 
-const session = require('express-session')
+import session from 'express-session'
 const redis = require('redis');
 const RedisStore = require('connect-redis').default
 
@@ -58,7 +58,7 @@ export const init = (async () => {
         name: "sid",
         cookie: {
             httpOnly: true,
-            sameSite: "none",
+            sameSite: "none" as const,
             maxAge: 1000 * 60 * 10 // 10 minutes.
         }
     }

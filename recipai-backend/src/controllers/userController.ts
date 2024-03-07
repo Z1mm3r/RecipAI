@@ -123,7 +123,7 @@ class UserController {
             // })
             // console.log(output)
             req.session.auth = req.body.userName
-            console.log(`User ${req.body.userName} logged in.`)
+            console.log(`User ${req.session.auth} logged in.`)
         }
         return valid;
     }

@@ -1,4 +1,4 @@
-const allEntities = require("./server/entities");
+const allEntities = require("./src/entities");
 
 import { Options } from "@mikro-orm/postgresql";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
@@ -10,7 +10,7 @@ const options: Options = {
     password: process.env.DATABASE_PASSWORD,
     user: process.env.DATABASE_USER,
     metadataProvider: TsMorphMetadataProvider,
-    entitiesTs: ['./server/entities/*.ts']
+    entitiesTs: ['./src/entities/*.ts']
 }
 
 
