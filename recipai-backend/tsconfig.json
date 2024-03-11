@@ -2,14 +2,19 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "target": "es6",
+        "typeRoots": [
+            "src/typings",
+            "node_modules/@types"
+        ],
         "module": "commonjs",
         "moduleResolution": "node",
-        "types": [
-            "node"
-        ],
         "outDir": "./dist",
-        "rootDir": "./",
+        "rootDir": "./src",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
     },
 }
+//Took this out of compiler options and everyting works? - 3/7 - express-session session.auth type error?
+// "types": [
+//     "node"
+// ],

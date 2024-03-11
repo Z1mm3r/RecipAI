@@ -88,6 +88,51 @@ class UserController {
         }
     }
 
+    private async getUserByUserName(userName: string, fields?: userFields[]) {
+        console.log("get user")
+        try {
+            const user = await this.DI.userRepository.findOneOrFail({ userName: userName }, { fields: [...fields] })
+            return user;
+        }
+        catch (e: any) {
+            return null;
+        }
+    }
+    ///////////Login | Logout  /////////////
+    async login(req, res) {
+        const user = await this.getUserByUserName(req.body.userName, ["id"]);
+        if (user == null) {
+            console.log("could not find user")
+            res.status(401)
+            return null;
+        }
+        const details: any = await this.serverGetUserDetailsViaUser(user.id, ["id"])
+        if (details == null) {
+            console.log("could not find details.")
+            res.status(401)
+            return null;
+        }
+
+
+        const valid = await this.userDetailController.authenticate(details.id, req.body.password)
+
+        if (valid) {
+            //Create Session
+            //TODO, are we  using this?
+            // let output = req.session.regenerate(function (err) {
+            //     console.log("Regenerate Callback")
+            //     req.session.auth = req.body.userName
+            // })
+            // console.log(output)
+            req.session.auth = req.body.userName
+            console.log(`User ${req.session.auth} logged in.`)
+        }
+        return valid;
+    }
+
+
+    ///////////User CRUD////////////////////
+
     async handleCreationRequest(req: Request, res: Response) {
         let value = await this.createNewUser(req);
         res.json({ message: value });
@@ -153,8 +198,6 @@ class UserController {
         let details = await this.serverGetUserDetailsViaUser(Number(req.params.id), fields);
         return details
     }
-
-
 
     async handleUserDetailsRequest(req: Request, res: Response) {
         //TODO DONT RETURN PASSWORD

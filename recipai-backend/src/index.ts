@@ -16,16 +16,16 @@ import { DI } from "./interfaces";
 const DI = {} as DI;
 
 const express = require("express");
-
 const cors = require('cors')
-
 const PORT = process.env.PORT || 3001;
 const DBPORT = process.env.DBPORT || 3002;
 const HOST = process.env.HOST || '127.0.0.1';
-
 const app = express();
 
-//MIKRO-ORM STUFF?
+import session from 'express-session'
+const redis = require('redis');
+const RedisStore = require('connect-redis').default
+
 export const init = (async () => {
     DI.orm = await MikroORM.init<PostgreSqlDriver>(config);
     DI.em = DI.orm.em;
@@ -36,12 +36,52 @@ export const init = (async () => {
         console.log(`MikroORM is listening at  ${HOST}:${DBPORT}`);
     })
 
+    const redisClient = redis.createClient({
+        url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
+    })
+
+    redisClient.connect().catch(console.error);
+
+    redisClient.on('error', (err) => {
+        console.log('Redis error: ', err);
+    })
+
+    redisClient.on('connect', () => {
+        console.log("Connected to redis")
+    })
+
+    const sess = {
+        store: new RedisStore({ client: redisClient }),
+        secret: process.env.REDIS_SECRET,
+        saveUninitialized: false,
+        resave: false,
+        name: "sid",
+        cookie: {
+            httpOnly: true,
+            sameSite: "strict" as const,
+            maxAge: 1000 * 60 * 10 // 10 minutes.
+        }
+    }
+
+    //TODO
+    // if (app.get('env') === 'production') {
+    //     sess.cookie.secure = true //true if using https false if not.
+    // }
+
+    app.use(session(sess))
+
     app.use((req, res, next) => {
         RequestContext.create(DI.orm.em, next)
     })
 
     app.set('host', HOST);
-    app.use(cors())
+
+    //TODO dont leave this
+    const corsOptions = {
+        origin: "http://127.0.0.1:5173",
+        credentials: true
+    }
+    app.use(cors(corsOptions))
     app.use(express.json()); // Used to add req.body
 
     const api = new API(app, PORT, HOST, DI);
