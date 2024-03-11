@@ -104,14 +104,16 @@ class UserController {
         if (user == null) {
             console.log("could not find user")
             res.status(401)
-            return false;
+            return null;
         }
         const details: any = await this.serverGetUserDetailsViaUser(user.id, ["id"])
         if (details == null) {
             console.log("could not find details.")
             res.status(401)
-            return false;
+            return null;
         }
+
+
         const valid = await this.userDetailController.authenticate(details.id, req.body.password)
 
         if (valid) {

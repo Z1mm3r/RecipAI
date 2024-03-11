@@ -75,6 +75,12 @@ class UserDetailsController {
     }
 
     async authenticate(userDetailsId: number, password: string) {
+
+        if (!userDetailsId || !password) {
+            console.log("ERROR: Attempted to authenticate without a userDetailsID or password.")
+            return false;
+        }
+
         const details = await this.getUserDetails(userDetailsId, ["password"]);
         let passed = false;
 

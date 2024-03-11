@@ -58,7 +58,7 @@ export const init = (async () => {
         name: "sid",
         cookie: {
             httpOnly: true,
-            sameSite: "none" as const,
+            sameSite: "strict" as const,
             maxAge: 1000 * 60 * 10 // 10 minutes.
         }
     }
@@ -78,7 +78,7 @@ export const init = (async () => {
 
     //TODO dont leave this
     const corsOptions = {
-        origin: "http://localhost:5173",
+        origin: "http://127.0.0.1:5173",
         credentials: true
     }
     app.use(cors(corsOptions))
