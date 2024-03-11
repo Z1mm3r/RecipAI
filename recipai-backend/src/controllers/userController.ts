@@ -130,12 +130,6 @@ class UserController {
         return valid;
     }
 
-    async logout(req, res) {
-        req.session.user = null;
-        req.session.save()
-        //TODO test this & logout... see if we can see anything on redis webapp later
-    }
-
 
     ///////////User CRUD////////////////////
 
