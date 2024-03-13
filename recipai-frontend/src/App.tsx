@@ -8,6 +8,11 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { ThemeProvider } from '@mui/material/styles';
 import { themeOptions } from '@components/CustomTheme';
 
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import ErrorPage from './screens/ErrorPage';
+import LoginScreen from './screens/LoginScreen';
+
+
 const classes = {
   container: {
     width: "100%",
@@ -17,6 +22,11 @@ const classes = {
     width: "100%",
   }
 }
+
+
+
+//          <PromptScreen />
+
 
 
 function App() {
@@ -31,7 +41,7 @@ function App() {
           <MainHeader userInfo={userLogin} />
         </Grid2>
         <Grid2 sx={classes.element}>
-          <PromptScreen />
+          <Outlet />
         </Grid2>
       </Grid2>
     </ThemeProvider>

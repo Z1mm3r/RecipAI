@@ -3,6 +3,7 @@ import { userLogin } from "@/types/userLogin"
 import { useMemo } from "react"
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2"
 import Button from "@mui/material/Button"
+import { Link } from "react-router-dom"
 
 
 const RightSideHeader = (props: { userInfo: userLogin }) => {
@@ -14,9 +15,11 @@ const RightSideHeader = (props: { userInfo: userLogin }) => {
         return (
             <Grid2 container justifyContent={"flex-end"}>
                 <Grid2 xs={4}>
-                    <Button variant="contained">
-                        Log In
-                    </Button>
+                    <Link to="/login">
+                        <Button variant="contained">
+                            Log In
+                        </Button>
+                    </Link>
                 </Grid2>
                 <Grid2 xs={4}>
                     <Button variant="outlined">
