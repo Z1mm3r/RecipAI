@@ -12,7 +12,7 @@ import RightSideHeader from './rightSideHeader'
 const classes = {
     container: {
         width: "100%",
-        height: "1%"
+        height: "100%"
     },
     element: {
         width: "100%",

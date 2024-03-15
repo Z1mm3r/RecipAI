@@ -16,10 +16,14 @@ import LoginScreen from './screens/LoginScreen';
 const classes = {
   container: {
     width: "100%",
-
+    height: "100vh",
   },
-  element: {
+  header: {
+    height: "10%"
+  },
+  page: {
     width: "100%",
+    height: "10%"
   }
 }
 
@@ -37,10 +41,10 @@ function App() {
   return (
     <ThemeProvider theme={themeOptions}>
       <Grid2 container direction={"column"} sx={classes.container}>
-        <Grid2 xs={12} sx={classes.element}>
+        <Grid2 xs={12} sx={classes.header}>
           <MainHeader userInfo={userLogin} />
         </Grid2>
-        <Grid2 sx={classes.element}>
+        <Grid2 sx={classes.page}>
           <Outlet />
         </Grid2>
       </Grid2>
