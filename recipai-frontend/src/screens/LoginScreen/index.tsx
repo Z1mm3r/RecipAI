@@ -37,7 +37,7 @@ const LoginScreen = () => {
 
 
     const requestLogin = () => {
-        console.log("logging into: ", import.meta.env.VITE_API_ENDPOINT)
+        console.log("logging into: ", process.env.API_ENDPOINT)
     }
 
 
