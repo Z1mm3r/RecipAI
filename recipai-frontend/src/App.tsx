@@ -13,6 +13,7 @@ import ErrorPage from './screens/ErrorPage';
 import LoginScreen from './screens/LoginScreen';
 
 
+
 const classes = {
   container: {
     width: "100%",
@@ -26,11 +27,6 @@ const classes = {
     height: "10%"
   }
 }
-
-
-
-//          <PromptScreen />
-
 
 
 function App() {

@@ -36,9 +36,33 @@ const LoginScreen = () => {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const requestLogin = () => {
+    const requestLogin = useCallback(() => {
         console.log("logging into: ", process.env.API_ENDPOINT)
-    }
+        const options: RequestInit = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userName: username,
+                password: password
+            }),
+            credentials: 'include',
+            mode: 'cors',
+        }
+
+        ///TODO why is this not logging?
+        fetch(`${process.env.API_ENDPOINT}/login`, options)
+            .then((res) => {
+                console.log(res)
+                console.log(res.status)
+                return res.text()
+            })
+            .then((data) => {
+                console.log(data)
+            })
+
+    }, [username, password])
 
 
     const handleUsernameUpdate = (event) => {
@@ -55,7 +79,12 @@ const LoginScreen = () => {
 
     const handleLoginButtonPress = (event) => {
         console.log("Logging in with ", { username, password })
-        requestLogin()
+        if (username && password) {
+            requestLogin()
+        }
+        else {
+            console.log("Missing username or password")
+        }
 
     }
 
