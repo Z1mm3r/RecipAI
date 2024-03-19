@@ -29,11 +29,16 @@ const classes = {
     }
 }
 
+
 const LoginScreen = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
+
+    const requestLogin = () => {
+        console.log("logging into: ", import.meta.env.VITE_API_ENDPOINT)
+    }
 
 
     const handleUsernameUpdate = (event) => {
@@ -50,6 +55,8 @@ const LoginScreen = () => {
 
     const handleLoginButtonPress = (event) => {
         console.log("Logging in with ", { username, password })
+        requestLogin()
+
     }
 
     return (

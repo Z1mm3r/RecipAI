@@ -4,6 +4,7 @@
         "esModuleInterop": true,
         "jsx": "react-jsx",
         "jsxImportSource": "@emotion/react",
+        "module": "ESNext",
         "baseUrl": ".",
         "paths": {
             "@/*": [
