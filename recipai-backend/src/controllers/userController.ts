@@ -103,13 +103,11 @@ class UserController {
         const user = await this.getUserByUserName(req.body.userName, ["id"]);
         if (user == null) {
             console.log("could not find user")
-            res.status(401)
             return null;
         }
         const details: any = await this.serverGetUserDetailsViaUser(user.id, ["id"])
         if (details == null) {
             console.log("could not find details.")
-            res.status(401)
             return null;
         }
 
@@ -124,7 +122,7 @@ class UserController {
             //     req.session.auth = req.body.userName
             // })
             // console.log(output)
-            req.session.auth = req.body.userName
+            req.session.auth = { userName: req.body.userName, userId: user.id }
             console.log(`User ${req.session.auth} logged in.`)
         }
         return valid;
