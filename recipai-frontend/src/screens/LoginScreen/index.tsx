@@ -73,21 +73,6 @@ const LoginScreen = () => {
             mode: 'cors',
         }
 
-        // fetch(`${process.env.API_ENDPOINT}/login`, options)
-        //     .then((res) => {
-        //         console.log(res)
-        //         if (res.status == 401) {
-        //             //TODO - login failed
-        //             setLoginFailed(true)
-        //         }
-        //         return res.json()
-        //     })
-        //     .then((data) => {
-        //         console.log(data)
-        //         handleLoginResponse(data)
-        //         setAccount({ ...account, loggedIn: data.loggedIn })
-        //     })
-
         try {
             const response = await fetch(`${process.env.API_ENDPOINT}/login`, options)
             console.log(response)
