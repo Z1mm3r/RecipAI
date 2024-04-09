@@ -8,6 +8,8 @@ import { faEye } from '@fortawesome/free-solid-svg-icons/faEye';
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons/faEyeSlash";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
+import { useNavigate } from "react-router-dom";
+
 import { AccountContext } from "@/App";
 import ErrorCard from "@/components/ErrorCard";
 
@@ -44,12 +46,16 @@ const LoginScreen = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     //const account = useContext(AccountContext)
 
+    const navigate = useNavigate();
+
     const handleLoginResponse = async (response: Response) => {
         const data = await response.json()
         console.log(data)
         if (data.code == "L0" || data.code == "L1") {
             setAccount({ ...account, loggedIn: data.loggedIn, username: data.username, userId: data.id })
         }
+        console.log("redirect to prompt")
+        navigate('/prompt')
     }
 
     const requestLogin = useCallback(async () => {
