@@ -1,15 +1,15 @@
 import { userLogin } from "@/types/userLogin"
 
-import { useMemo } from "react"
+import { useMemo, useContext } from "react"
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2"
 import Button from "@mui/material/Button"
 import { Link } from "react-router-dom"
 
+import { AccountContext } from "@/App";
 
-const RightSideHeader = (props: { userInfo: userLogin }) => {
+const RightSideHeader = () => {
 
-    const { userInfo } = { ...props }
-    const { loggedIn } = { ...userInfo }
+    const [account, setAccount] = useContext(AccountContext)
 
     const renderLoggedOutHeader = useMemo(() => {
         return (
@@ -39,13 +39,13 @@ const RightSideHeader = (props: { userInfo: userLogin }) => {
     }, [])
 
     const renderRightSide = useMemo(() => {
-        if (loggedIn) {
+        if (account.loggedIn) {
             return (renderLoggedInHeader);
         }
         else {
             return (renderLoggedOutHeader);
         }
-    }, [loggedIn])
+    }, [account])
 
     return (
         <>

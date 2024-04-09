@@ -19,13 +19,8 @@ const classes = {
     }
 }
 
-
-
-
 //Figure out designs for header, should we have a profile badge, etc?
-const MainHeader = (props: { userInfo: userLogin }) => {
-    const { userInfo } = { ...props }
-
+const MainHeader = () => {
     return (
         <Card sx={classes.container}>
             <Grid2 container alignItems={"center"}>
@@ -45,7 +40,7 @@ const MainHeader = (props: { userInfo: userLogin }) => {
                     {/*Spacer*/}
                 </Grid2>
                 <Grid2 xs={6} textAlign={"center"}>
-                    <RightSideHeader userInfo={userInfo} />
+                    <RightSideHeader />
                 </Grid2>
             </Grid2>
         </Card>

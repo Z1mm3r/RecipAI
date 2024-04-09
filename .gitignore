@@ -4,4 +4,6 @@ node_modules/
 recipai-backend/.env
 recipai-backend/dist
 
+recipai-frontend/.env
+
 .env

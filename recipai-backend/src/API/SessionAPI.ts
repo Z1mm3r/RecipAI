@@ -18,8 +18,15 @@ class SessionAPI {
         this.app.post('/login', async (req, res) => {
             console.log("Attempting Login:")
             if (req.session.auth) {
-                console.log("Already Logged in")
-                res.send("Already Logged In")
+                if (req.session.auth.userName == req.body.userName) {
+                    console.log("Already Logged in")
+                    res.json({ code: "L1", message: "Already Logged In", loggedIn: true, userName: req.session.auth.userName, id: req.session.auth.userId })
+                }
+
+                else {
+                    console.log("logged in on different account")
+                    res.json({ code: "L2", message: "Logged in on another account", loggedIn: true, userName: req.session.auth.userName, id: req.session.auth.userId })
+                }
             }
 
             else {
@@ -30,11 +37,12 @@ class SessionAPI {
                 }
                 else if (loggedIn == null) {
                     console.log("Invalid log in attempt.")
+                    res.status(401).send("Incorrect username or password.")
                 }
                 else {
 
                     console.log("User Logged in")
-                    res.json({ loggedIn: true, username: req.body.userName })
+                    res.json({ code: "L0", loggedIn: true, username: req.session.auth.userName, id: req.session.auth.userId })
                 }
 
             }

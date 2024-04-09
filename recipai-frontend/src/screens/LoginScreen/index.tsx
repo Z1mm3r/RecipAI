@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext, useEffect, useMemo } from "react";
 import Card from "@mui/material/Card";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { pct } from "@/util/utils";
@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye';
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons/faEyeSlash";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
+
+import { AccountContext } from "@/App";
+import ErrorCard from "@/components/ErrorCard";
 
 const classes = {
     parentContainer: {
@@ -31,12 +34,25 @@ const classes = {
 
 
 const LoginScreen = () => {
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [account, setAccount] = useContext(AccountContext)
+    const [error, setError] = useState("")
+    const [loginFailed, setLoginFailed] = useState(false)
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    //const account = useContext(AccountContext)
 
+    const handleLoginResponse = async (response: Response) => {
+        const data = await response.json()
+        console.log(data)
+        if (data.code == "L0" || data.code == "L1") {
+            setAccount({ ...account, loggedIn: data.loggedIn, username: data.username, userId: data.id })
+        }
+    }
 
-    const requestLogin = useCallback(() => {
+    const requestLogin = useCallback(async () => {
         console.log("logging into: ", process.env.API_ENDPOINT)
         const options: RequestInit = {
             method: "POST",
@@ -51,16 +67,37 @@ const LoginScreen = () => {
             mode: 'cors',
         }
 
-        ///TODO why is this not logging?
-        fetch(`${process.env.API_ENDPOINT}/login`, options)
-            .then((res) => {
-                console.log(res)
-                console.log(res.status)
-                return res.text()
-            })
-            .then((data) => {
-                console.log(data)
-            })
+        // fetch(`${process.env.API_ENDPOINT}/login`, options)
+        //     .then((res) => {
+        //         console.log(res)
+        //         if (res.status == 401) {
+        //             //TODO - login failed
+        //             setLoginFailed(true)
+        //         }
+        //         return res.json()
+        //     })
+        //     .then((data) => {
+        //         console.log(data)
+        //         handleLoginResponse(data)
+        //         setAccount({ ...account, loggedIn: data.loggedIn })
+        //     })
+
+        try {
+            const response = await fetch(`${process.env.API_ENDPOINT}/login`, options)
+            console.log(response)
+            if (response.ok) {
+                handleLoginResponse(response)
+            }
+            else {
+                if (response.status == 401) {
+                    setError("Invalid username / password")
+                }
+                setLoginFailed(true)
+                setShowErrorMessage(true)
+            }
+        } catch (error) {
+            console.log("Error attempting to log in", error)
+        }
 
     }, [username, password])
 
@@ -87,6 +124,17 @@ const LoginScreen = () => {
         }
 
     }
+
+    const renderErrorCard = useMemo(() => {
+        if (loginFailed && showErrorMessage) {
+            return (
+                <ErrorCard error={error} />
+            )
+        }
+        else {
+            return null
+        }
+    }, [loginFailed, showErrorMessage, error])
 
     return (
 
@@ -139,6 +187,9 @@ const LoginScreen = () => {
                             <Button onClick={handleLoginButtonPress}>
                                 Login
                             </Button>
+                            {
+                                renderErrorCard
+                            }
                         </Grid2>
                     </Grid2>
                 </Card>
